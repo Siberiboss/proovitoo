@@ -14,4 +14,4 @@
 	
 	To get data from the database;
 	
-		with the entry appended to the end -->	http://localhost:8888/data?search=
+	     with the entry appended to the end -->	http://localhost:8888/data?search=
