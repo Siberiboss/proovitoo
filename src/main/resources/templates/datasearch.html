@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Search for data</title>
+</head>
+<body>
+    <form method="post">
+        Input data:
+        <input type="text" name="insert"/>
+        <button type="submit">Submit</button>
+    </form>
+    <br/>
+    <ul>
+        <h3>Results for "<span th:text="${search}"></span>":</h3>
+        <div th:text="${dataList}"></div>
+    </ul>
+</body>
+</html>

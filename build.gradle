@@ -1,0 +1,77 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath("org.flywaydb:flyway-core:3.2.1")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+
+		//classpath files("src/main/resources/postgresql-42.0.0.jar")
+	}
+}
+
+plugins {
+	id "org.flywaydb.flyway" version "3.2.1"
+}
+
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+    all*.exclude module : 'logback-classic'
+}
+
+dependencies {
+
+
+    compile("org.thymeleaf:thymeleaf-spring4")
+
+	compile('org.postgresql:postgresql:42.0.0')
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile ('org.slf4j:slf4j-simple:1.7.7')
+    compile('org.flywaydb:flyway-core:3.2.1')
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-jersey")
+    compile ('org.springframework.data:spring-data-jpa:1.11.1.RELEASE')
+
+	compile ('javax.servlet:javax.servlet-api:3.1.0')
+	compile ('org.javassist:javassist:3.15.0-GA')
+    compile("com.google.guava:guava:18.0")
+	testCompile("org.assertj:assertj-core:1.7.0")
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+flyway {
+	url = 'jdbc:postgresql://localhost:32769/db'
+	user = 'user'
+	password = 'pw'
+}
+
+defaultTasks 'flywayMigrate'
+
+task fatJar(type: Jar) {
+	manifest {
+		attributes 'Implementation-Title': 'Proovitoo',
+				'Implementation-Version': version,
+				'Main-Class': 'com.example.ProovitooApplication'
+	}
+	baseName = project.name + '-all'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}
